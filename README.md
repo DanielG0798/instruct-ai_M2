@@ -1,6 +1,6 @@
-# CourseGuide AI — Milestone 2 Prototype
+# instruct.ai — Milestone 2 Prototype
 
-**Team:** instruct.ai  
+**Project:** CourseGuide AI  
 **Course:** CEN 4930 — AI Agent Studio, Fall 2026  
 **Institution:** Florida Gulf Coast University (FGCU)
 
