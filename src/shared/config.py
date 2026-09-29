@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-ROOT_DIR = Path(__file__).resolve().parents[2]
+ROOT_DIR = Path(__file__).resolve().parents[1]
 CONFIG_DIR = ROOT_DIR / "config"
 DATA_DIR = ROOT_DIR / "data"
 
@@ -38,6 +38,6 @@ def model_client_config() -> dict:
         "api_key": os.getenv("BYOM_API_KEY", os.getenv("OPENAI_API_KEY", "")),
         "base_url": os.getenv("MODEL_BASE_URL", "https://api.openai.com/v1"),
         "model": os.getenv("MODEL_NAME", "gpt-4o-mini"),
-        "fallback_model": os.getenv("FALLBACK_MODEL", "nrp-open-llm"),
+        "fallback_model": os.getenv("FALLBACK_MODEL", "kimi"),
         "fallback_base_url": os.getenv("FALLBACK_BASE_URL", ""),
     }
