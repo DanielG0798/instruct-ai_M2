@@ -42,3 +42,30 @@ test_cases:
     expected_keywords:
       - "example"
       - "similar"
+
+  - id: m2_006
+    course_id: biology_201
+    question: "Can you explain how the structure of the cell membrane relates to its function?"
+    expected_help_type: concept
+    expected_keywords:
+      - "membrane"
+      - "structure"
+      - "function"
+
+  - id: m2_007
+    course_id: biology_201
+    question: "I'm stuck on a genetics problem. What should I do next?"
+    expected_help_type: hint
+    expected_keywords:
+      - "inheritance"
+      - "pattern"
+      - "information"
+
+  - id: m2_008
+    course_id: biology_201
+    question: "Can you show me a similar example for interpreting experimental evidence?"
+    expected_help_type: analogy
+    expected_keywords:
+      - "example"
+      - "evidence"
+      - "observation"
