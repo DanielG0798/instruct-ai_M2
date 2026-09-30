@@ -25,14 +25,28 @@ College students in reasoning-intensive courses increasingly have access to imme
 
 ## Setup
 
+The tested setup uses NRP as the BYOM provider and the `gpt-oss` model. Store the private API key only in a local `.env` file.
+
 ```bash
 python -m venv .venv
-source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env
 ```
 
-Edit `.env` with your BYOM or NRP credentials.
+On Windows PowerShell, activate it with:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Create `.env` in the project root:
+
+```text
+NRP_BASE_URL=https://ellm.nrp-nautilus.io/v1
+NRP_API_KEY=your-nrp-key
+MODEL_NAME=gpt-oss
+```
+
+Do not commit or share the API key. The MCP server starts automatically.
 
 ## Run the agent
 
@@ -40,7 +54,7 @@ Edit `.env` with your BYOM or NRP credentials.
 python -m src.m2_agent --course physics_101 --question "What is velocity?"
 ```
 
-Or use the helper script:
+On Linux/macOS, the helper script runs an example question:
 
 ```bash
 bash scripts/run_m2.sh
@@ -52,11 +66,15 @@ bash scripts/run_m2.sh
 bash scripts/run_tests.sh
 ```
 
-The tests check five example prompts and verify that each response contains expected keywords.
+On Windows PowerShell, run `pytest tests -v`. The tests call the live model and check five prompts for expected keywords, so valid credentials are required.
+
+## Intentionally not implemented
+
+The prototype does not yet retrieve syllabi, inspect images or handwritten work, or connect to Canvas. YAML files provide course policies, not syllabus content.
 
 ## Known limitations
 
 1. The agent does not yet inspect images or handwritten work.
 2. Policy matching is exact; partial course names fall back to a generic policy.
 3. Help classification is keyword-based; nuanced prompts may be mislabeled.
-4. The MCP server launches over stdio; if `python` is not on PATH, the connection fails.
+4. Responses depend on the availability and permissions of the configured model endpoint.

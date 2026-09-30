@@ -33,11 +33,13 @@ def get_required_env(key: str) -> str:
 
 def model_client_config() -> dict:
     """Return the active model client configuration."""
+    nrp_base_url = os.getenv("NRP_BASE_URL")
+    using_nrp = bool(nrp_base_url)
     return {
-        "provider": os.getenv("MODEL_PROVIDER", "byom"),
-        "api_key": os.getenv("BYOM_API_KEY", os.getenv("OPENAI_API_KEY", "")),
-        "base_url": os.getenv("MODEL_BASE_URL", "https://api.openai.com/v1"),
-        "model": os.getenv("MODEL_NAME", "gpt-4o-mini"),
+        "provider": os.getenv("MODEL_PROVIDER", "nrp" if using_nrp else "byom"),
+        "api_key": os.getenv("NRP_API_KEY" if using_nrp else "BYOM_API_KEY", ""),
+        "base_url": nrp_base_url or os.getenv("MODEL_BASE_URL", "https://api.openai.com/v1"),
+        "model": os.getenv("MODEL_NAME", "gpt-oss"),
         "fallback_model": os.getenv("FALLBACK_MODEL", "kimi"),
         "fallback_base_url": os.getenv("FALLBACK_BASE_URL", ""),
     }

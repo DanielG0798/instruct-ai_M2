@@ -1,6 +1,6 @@
 """Milestone 2 single-tool agent prototype.
 
-- Configure an OpenAI-compatible client pointing at BYOM or NRP.
+- Configure an OpenAI-compatible client pointing at NRP or OpenAI.
 - Use the OpenAI Agents SDK (`Agent`, `Runner`).
 - Attach an MCP server (stdio) so the agent can look up course policies
   and classify help requests through tools.
@@ -53,11 +53,13 @@ If the student asks which courses are available, use `list_available_courses`.
 def configure_client() -> AsyncOpenAI:
     """Create an AsyncOpenAI client from environment variables.
 
-    Defaults point at BYOM, but setting NRP_BASE_URL and NRP_API_KEY
-    switches the agent to the NRP fallback.
+    NRP is the primary BYOM provider. OpenAI is supported as a fallback.
     """
-    base_url = os.getenv("MODEL_BASE_URL") or os.getenv("NRP_BASE_URL")
-    api_key = os.getenv("BYOM_API_KEY") or os.getenv("NRP_API_KEY")
+    base_url = os.getenv("NRP_BASE_URL")
+    api_key = os.getenv("NRP_API_KEY")
+    if not base_url:
+        base_url = os.getenv("MODEL_BASE_URL")
+        api_key = os.getenv("BYOM_API_KEY")
     if not base_url:
         raise ValueError("Set MODEL_BASE_URL or NRP_BASE_URL in your environment.")
     if not api_key:
@@ -77,7 +79,7 @@ async def ask(course_id: str, question: str, model: str | None = None) -> str:
     async with MCPServerStdio(
         name="CoursePolicyServer",
         params=MCPServerStdioParams(
-            command="python",
+            command=sys.executable,
             args=[str(MCP_SCRIPT)],
         ),
         client_session_timeout_seconds=90,
