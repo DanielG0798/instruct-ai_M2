@@ -25,7 +25,7 @@ College students in reasoning-intensive courses increasingly have access to imme
 
 ## Setup
 
-The tested setup uses the OpenAI API and the `gpt-4o-mini` model. Store the private API key only in a local `.env` file.
+The tested setup uses NRP as the BYOM provider and the `gpt-oss` model. Store the private API key in a local `.env` file.
 
 ```bash
 python -m venv .venv
@@ -41,9 +41,12 @@ On Windows PowerShell, activate it with:
 Create `.env` in the project root:
 
 ```text
-MODEL_BASE_URL=https://api.openai.com/v1
-BYOM_API_KEY=your-openai-api-key
-MODEL_NAME=gpt-4o-mini
+# OpenAI/BYOM settings remain commented when using NRP.
+# MODEL_BASE_URL=https://api.openai.com/v1
+# BYOM_API_KEY=your-openai-api-key
+NRP_BASE_URL=https://ellm.nrp-nautilus.io/v1
+NRP_API_KEY=your-nrp-key
+MODEL_NAME=gpt-oss
 ```
 
 Do not commit or share the API key. The MCP server starts automatically.

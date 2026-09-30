@@ -53,7 +53,7 @@ If the student asks which courses are available, use `list_available_courses`.
 def configure_client() -> AsyncOpenAI:
     """Create an AsyncOpenAI client from environment variables.
 
-    OpenAI is the primary provider. NRP is supported as a fallback.
+    NRP is the primary BYOM provider. OpenAI is supported as a fallback.
     """
     base_url = os.getenv("MODEL_BASE_URL")
     api_key = os.getenv("BYOM_API_KEY")
@@ -88,7 +88,7 @@ async def ask(course_id: str, question: str, model: str | None = None) -> str:
             name="CourseGuideM2",
             instructions=INSTRUCTIONS,
             mcp_servers=[mcp_server],
-            model=model or os.getenv("MODEL_NAME", "gpt-4o-mini"),
+            model=model or os.getenv("MODEL_NAME", "gpt-oss"),
         )
 
         user_input = f"Course ID: {course_id}\nStudent question: {question}"

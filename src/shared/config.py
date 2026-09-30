@@ -39,7 +39,7 @@ def model_client_config() -> dict:
         "provider": os.getenv("MODEL_PROVIDER", "byom" if not using_nrp else "nrp"),
         "api_key": os.getenv("NRP_API_KEY" if using_nrp else "BYOM_API_KEY", ""),
         "base_url": model_base_url or os.getenv("NRP_BASE_URL", "https://api.openai.com/v1"),
-        "model": os.getenv("MODEL_NAME", "gpt-4o-mini"),
+        "model": os.getenv("MODEL_NAME", "gpt-oss"),
         "fallback_model": os.getenv("FALLBACK_MODEL", "kimi"),
         "fallback_base_url": os.getenv("FALLBACK_BASE_URL", ""),
     }
