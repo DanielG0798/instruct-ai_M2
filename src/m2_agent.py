@@ -1,6 +1,6 @@
 """Milestone 2 single-tool agent prototype.
 
-- Configure an OpenAI-compatible client pointing at NRP or OpenAI.
+- Configure an OpenAI client pointing at OpenAI or an NRP fallback.
 - Use the OpenAI Agents SDK (`Agent`, `Runner`).
 - Attach an MCP server (stdio) so the agent can look up course policies
   and classify help requests through tools.
@@ -53,13 +53,13 @@ If the student asks which courses are available, use `list_available_courses`.
 def configure_client() -> AsyncOpenAI:
     """Create an AsyncOpenAI client from environment variables.
 
-    NRP is the primary BYOM provider. OpenAI is supported as a fallback.
+    OpenAI is the primary provider. NRP is supported as a fallback.
     """
-    base_url = os.getenv("NRP_BASE_URL")
-    api_key = os.getenv("NRP_API_KEY")
+    base_url = os.getenv("MODEL_BASE_URL")
+    api_key = os.getenv("BYOM_API_KEY")
     if not base_url:
-        base_url = os.getenv("MODEL_BASE_URL")
-        api_key = os.getenv("BYOM_API_KEY")
+        base_url = os.getenv("NRP_BASE_URL")
+        api_key = os.getenv("NRP_API_KEY")
     if not base_url:
         raise ValueError("Set MODEL_BASE_URL or NRP_BASE_URL in your environment.")
     if not api_key:
@@ -88,7 +88,7 @@ async def ask(course_id: str, question: str, model: str | None = None) -> str:
             name="CourseGuideM2",
             instructions=INSTRUCTIONS,
             mcp_servers=[mcp_server],
-            model=model or os.getenv("MODEL_NAME", "gpt-oss"),
+            model=model or os.getenv("MODEL_NAME", "gpt-4o-mini"),
         )
 
         user_input = f"Course ID: {course_id}\nStudent question: {question}"
